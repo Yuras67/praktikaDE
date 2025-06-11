@@ -20,25 +20,27 @@ namespace praktikaDE.Admin_Folder.Add_Folder
     /// </summary>
     public partial class Window1 : Window
     {
-        Пользователь currentUser = new Пользователь();
 
         public Window1(Пользователи selectedUser)
         {
             InitializeComponent();
-            DataContext = currentUser;
+            //DataContext = currentUser;
 
-            if (selectedUser != null)
-                currentUser = selectedUser;
-            DataContext = currentUser;
+            //if (selectedUser != null)
+            //    currentUser = selectedUser;
+            //DataContext = currentUser;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                AutoParking_DBEntities.GetContext().Пользователи.Add(currentUser);
-                AutoParking_DBEntities.GetContext().SaveChanges();
-            }
+            //try
+            //{
+            //    AutoParking_DBEntities.GetContext().Пользователи.Add(currentUser);
+            //    AutoParking_DBEntities.GetContext().SaveChanges();
+            //}
+            //catch (Exception ex) {
+            //    MessageBox.Show(ex.ToString());
+            //        }
         }
     }
 }

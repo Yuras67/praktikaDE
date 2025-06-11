@@ -82,8 +82,6 @@ namespace praktikaDE.Authorization_Folder
                 MessageBox.Show("Новый пароль не совпадает с подтверждением");
                 return;
             }
-
-
         }
 
         private void UpdateData(

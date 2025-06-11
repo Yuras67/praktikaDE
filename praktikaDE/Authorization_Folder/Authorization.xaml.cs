@@ -41,12 +41,17 @@ namespace praktikaDE.Authorization_Folder
 
             var User = db.Пользователи.FirstOrDefault(u => u.Логин == Login && u.Пароль == Password);
             var Users = db.Пользователи.FirstOrDefault(u => u.Логин == Login || u.Пароль == Password);
-            
-            var currentUser = db.Пользователи.Find(Users.Код_пользователя);
 
-            if (isFailed >= 3 || currentUser.Заблокитрован == true || ((TimeSpan)(DateTime.Now - currentUser.Дата_последнего_входа)).TotalDays > 30)
+            if (Users == null)
             {
-                currentUser.Заблокитрован = true;
+                isFailed += 1;
+                MessageBox.Show("Неверный логин или пароль");
+                return;
+            }
+
+            if (isFailed >= 3 || Users.Заблокитрован == true || ((TimeSpan)(DateTime.Now - Users.Дата_последнего_входа)).TotalDays > 30)
+            {
+                Users.Заблокитрован = true;
                 db.SaveChanges();
                 MessageBox.Show("Ваш аккаунт заблокирован. Пожалуйста, обратитесь к администратору");
                 return;
@@ -64,7 +69,6 @@ namespace praktikaDE.Authorization_Folder
                 this.Close();
                 change_Password_Window.Show();
             }
- 
         }
     }
 }
