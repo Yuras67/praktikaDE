@@ -1,0 +1,9 @@
+﻿<Application x:Class="praktikaDE.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:praktikaDE.Authorization_Folder"
+             StartupUri="Authorization_Folder/Authorization.xaml">
+    <Application.Resources>
+          
+    </Application.Resources>
+</Application>

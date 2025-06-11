@@ -1,0 +1,29 @@
+﻿<Window x:Class="praktikaDE.Admin_Folder.Edit_Folder.Edit_User_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:praktikaDE.Admin_Folder.Edit_Folder"
+        mc:Ignorable="d"
+        Title="Edit_User_Window" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="100*"/>
+        </Grid.RowDefinitions>
+        <Label Content="Добавить пользователя" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <TextBox x:Name="id" HorizontalAlignment="Center" Grid.Row="1" Text="{Binding Код_сотрудника}" VerticalAlignment="Center" Width="120"/>
+        <TextBox x:Name="login" HorizontalAlignment="Center" Grid.Row="2" Text="{Binding Логин}" VerticalAlignment="Center" Width="120"/>
+        <TextBox x:Name="passowrd" HorizontalAlignment="Center" Grid.Row="3" Text="{Binding Пароль}" VerticalAlignment="Center" Width="120"/>
+        <TextBox x:Name="lass_in" HorizontalAlignment="Center" Grid.Row="4" Text="{Binding Дата_последнего_входа}" VerticalAlignment="Center" Width="120"/>
+        <TextBox x:Name="isbaned" HorizontalAlignment="Center" Grid.Row="5" Text="{Binding Заблокитрован}" VerticalAlignment="Center" Width="120"/>
+        <Button Content="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="6" Click="Button_Click" />
+
+
+    </Grid>
+</Window>

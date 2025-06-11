@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище AutoParking_DBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Автомобили">
+          <Key>
+            <PropertyRef Name="Код_автомобиля" />
+          </Key>
+          <Property Name="Код_автомобиля" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Код_сотрудника" Type="int" Nullable="false" />
+          <Property Name="Марка" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Модель" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Пробег" Type="int" Nullable="false" />
+          <Property Name="Код_состояния" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="Код_пользователя" />
+          </Key>
+          <Property Name="Код_пользователя" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Код_сотрудника" Type="int" Nullable="false" />
+          <Property Name="Логин" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Пароль" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Дата_последнего_входа" Type="date" />
+          <Property Name="Заблокитрован" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Состояния">
+          <Key>
+            <PropertyRef Name="Код_состояния" />
+          </Key>
+          <Property Name="Код_состояния" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название_состояния" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="Код_сотрудника" />
+          </Key>
+          <Property Name="Код_сотрудника" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Код_специальности" Type="int" Nullable="false" />
+          <Property Name="ФИО" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Специальности">
+          <Key>
+            <PropertyRef Name="Код_специальности" />
+          </Key>
+          <Property Name="Код_специальности" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название_специльности" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Категория" Type="nvarchar" MaxLength="60" />
+        </EntityType>
+        <Association Name="FK_Автомобили_Состояния">
+          <End Role="Состояния" Type="Self.Состояния" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Состояния">
+              <PropertyRef Name="Код_состояния" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Код_состояния" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Автомобили_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Пользователи_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Пользователи">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Специальности">
+          <End Role="Специальности" Type="Self.Специальности" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Специальности">
+              <PropertyRef Name="Код_специальности" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_специальности" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище AutoParking_DBModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Автомобили" EntityType="Self.Автомобили" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пользователи" EntityType="Self.Пользователи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Состояния" EntityType="Self.Состояния" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Специальности" EntityType="Self.Специальности" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Автомобили_Состояния" Association="Self.FK_Автомобили_Состояния">
+            <End Role="Состояния" EntitySet="Состояния" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Автомобили_Сотрудники" Association="Self.FK_Автомобили_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Пользователи_Сотрудники" Association="Self.FK_Пользователи_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Пользователи" EntitySet="Пользователи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Специальности" Association="Self.FK_Сотрудники_Специальности">
+            <End Role="Специальности" EntitySet="Специальности" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AutoParking_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Автомобили">
+          <Key>
+            <PropertyRef Name="Код_автомобиля" />
+          </Key>
+          <Property Name="Код_автомобиля" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Код_сотрудника" Type="Int32" Nullable="false" />
+          <Property Name="Марка" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Модель" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Пробег" Type="Int32" Nullable="false" />
+          <Property Name="Код_состояния" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Состояния" Relationship="Self.FK_Автомобили_Состояния" FromRole="Автомобили" ToRole="Состояния" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Автомобили_Сотрудники" FromRole="Автомобили" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="Код_пользователя" />
+          </Key>
+          <Property Name="Код_пользователя" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Код_сотрудника" Type="Int32" Nullable="false" />
+          <Property Name="Логин" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Пароль" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Дата_последнего_входа" Type="DateTime" Precision="0" />
+          <Property Name="Заблокитрован" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Пользователи_Сотрудники" FromRole="Пользователи" ToRole="Сотрудники" />
+        </EntityType>
+        <EntityType Name="Состояния">
+          <Key>
+            <PropertyRef Name="Код_состояния" />
+          </Key>
+          <Property Name="Код_состояния" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название_состояния" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Автомобили" Relationship="Self.FK_Автомобили_Состояния" FromRole="Состояния" ToRole="Автомобили" />
+        </EntityType>
+        <EntityType Name="Сотрудники">
+          <Key>
+            <PropertyRef Name="Код_сотрудника" />
+          </Key>
+          <Property Name="Код_сотрудника" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Код_специальности" Type="Int32" Nullable="false" />
+          <Property Name="ФИО" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Автомобили" Relationship="Self.FK_Автомобили_Сотрудники" FromRole="Сотрудники" ToRole="Автомобили" />
+          <NavigationProperty Name="Пользователи" Relationship="Self.FK_Пользователи_Сотрудники" FromRole="Сотрудники" ToRole="Пользователи" />
+          <NavigationProperty Name="Специальности" Relationship="Self.FK_Сотрудники_Специальности" FromRole="Сотрудники" ToRole="Специальности" />
+        </EntityType>
+        <EntityType Name="Специальности">
+          <Key>
+            <PropertyRef Name="Код_специальности" />
+          </Key>
+          <Property Name="Код_специальности" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название_специльности" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Категория" Type="String" MaxLength="60" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Сотрудники" Relationship="Self.FK_Сотрудники_Специальности" FromRole="Специальности" ToRole="Сотрудники" />
+        </EntityType>
+        <Association Name="FK_Автомобили_Состояния">
+          <End Role="Состояния" Type="Self.Состояния" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Состояния">
+              <PropertyRef Name="Код_состояния" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Код_состояния" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Автомобили_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Автомобили" Type="Self.Автомобили" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Автомобили">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Пользователи_Сотрудники">
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="1" />
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Сотрудники">
+              <PropertyRef Name="Код_сотрудника" />
+            </Principal>
+            <Dependent Role="Пользователи">
+              <PropertyRef Name="Код_сотрудника" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Сотрудники_Специальности">
+          <End Role="Специальности" Type="Self.Специальности" Multiplicity="1" />
+          <End Role="Сотрудники" Type="Self.Сотрудники" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Специальности">
+              <PropertyRef Name="Код_специальности" />
+            </Principal>
+            <Dependent Role="Сотрудники">
+              <PropertyRef Name="Код_специальности" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AutoParking_DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Автомобили" EntityType="Self.Автомобили" />
+          <EntitySet Name="Пользователи" EntityType="Self.Пользователи" />
+          <EntitySet Name="Состояния" EntityType="Self.Состояния" />
+          <EntitySet Name="Сотрудники" EntityType="Self.Сотрудники" />
+          <EntitySet Name="Специальности" EntityType="Self.Специальности" />
+          <AssociationSet Name="FK_Автомобили_Состояния" Association="Self.FK_Автомобили_Состояния">
+            <End Role="Состояния" EntitySet="Состояния" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Автомобили_Сотрудники" Association="Self.FK_Автомобили_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Автомобили" EntitySet="Автомобили" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Пользователи_Сотрудники" Association="Self.FK_Пользователи_Сотрудники">
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+            <End Role="Пользователи" EntitySet="Пользователи" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Сотрудники_Специальности" Association="Self.FK_Сотрудники_Специальности">
+            <End Role="Специальности" EntitySet="Специальности" />
+            <End Role="Сотрудники" EntitySet="Сотрудники" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище AutoParking_DBModelContainer" CdmEntityContainer="AutoParking_DBEntities">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="AutoParking_DBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Автомобили">
+            <EntityTypeMapping TypeName="AutoParking_DBModel.Автомобили">
+              <MappingFragment StoreEntitySet="Автомобили">
+                <ScalarProperty Name="Код_автомобиля" ColumnName="Код_автомобиля" />
+                <ScalarProperty Name="Код_сотрудника" ColumnName="Код_сотрудника" />
+                <ScalarProperty Name="Марка" ColumnName="Марка" />
+                <ScalarProperty Name="Модель" ColumnName="Модель" />
+                <ScalarProperty Name="Пробег" ColumnName="Пробег" />
+                <ScalarProperty Name="Код_состояния" ColumnName="Код_состояния" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пользователи">
+            <EntityTypeMapping TypeName="AutoParking_DBModel.Пользователи">
+              <MappingFragment StoreEntitySet="Пользователи">
+                <ScalarProperty Name="Код_пользователя" ColumnName="Код_пользователя" />
+                <ScalarProperty Name="Код_сотрудника" ColumnName="Код_сотрудника" />
+                <ScalarProperty Name="Логин" ColumnName="Логин" />
+                <ScalarProperty Name="Пароль" ColumnName="Пароль" />
+                <ScalarProperty Name="Дата_последнего_входа" ColumnName="Дата_последнего_входа" />
+                <ScalarProperty Name="Заблокитрован" ColumnName="Заблокитрован" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Состояния">
+            <EntityTypeMapping TypeName="AutoParking_DBModel.Состояния">
+              <MappingFragment StoreEntitySet="Состояния">
+                <ScalarProperty Name="Код_состояния" ColumnName="Код_состояния" />
+                <ScalarProperty Name="Название_состояния" ColumnName="Название_состояния" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Сотрудники">
+            <EntityTypeMapping TypeName="AutoParking_DBModel.Сотрудники">
+              <MappingFragment StoreEntitySet="Сотрудники">
+                <ScalarProperty Name="Код_сотрудника" ColumnName="Код_сотрудника" />
+                <ScalarProperty Name="Код_специальности" ColumnName="Код_специальности" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Специальности">
+            <EntityTypeMapping TypeName="AutoParking_DBModel.Специальности">
+              <MappingFragment StoreEntitySet="Специальности">
+                <ScalarProperty Name="Код_специальности" ColumnName="Код_специальности" />
+                <ScalarProperty Name="Название_специльности" ColumnName="Название_специльности" />
+                <ScalarProperty Name="Категория" ColumnName="Категория" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
